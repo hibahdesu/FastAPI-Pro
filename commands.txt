@@ -9,3 +9,10 @@ pip install "fastapi[standard]"
 **To start the app:**
 fastapi dev app/
 
+pip freeze > requirements.txt
+
+ pip install asyncpg
+
+ pip install pydantic-settings
+
+ pip install sqlmodel

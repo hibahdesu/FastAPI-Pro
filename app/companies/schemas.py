@@ -29,8 +29,6 @@ class CompanyCreateModel(BaseModel):
     monthly_ticket_limit: int 
     ticket_usage: int 
 
-
-
 class CompanyUpdateModel(BaseModel):
     name: str 
     email: EmailStr
