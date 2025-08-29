@@ -4,7 +4,7 @@ from pydantic import Field
 import uuid
 from datetime import datetime
 
-class CompanyBase(BaseModel):
+class Company(BaseModel):
     uid: uuid.UUID 
     name: str
     email: EmailStr

@@ -2,8 +2,7 @@
 from fastapi import APIRouter, status, Depends
 from app.companies.service import CompanyService
 from app.db.database import get_db
-from app.companies.models import Company
-from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel
+from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel, Company
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi.exceptions import HTTPException
 from typing import List
@@ -39,21 +38,23 @@ async def get_a_company(company_uid: str, session: AsyncSession = Depends(get_db
 async def update_a_company(company_uid: str, company_update_data: CompanyUpdateModel, session: AsyncSession = Depends(get_db)):
     updated_company = await company_service.update_company(company_uid, company_update_data, session)
 
-    if updated_company:
-        return updated_company
-    else:
+    if updated_company is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Company not found")
+        
+    else:
+        return updated_company
+        
     
-
-
 @company_router.delete("/{company_uid}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_a_company(company_uid: str, session: AsyncSession = Depends(get_db)):
     deleted_company = await company_service.delete_company(company_uid, session)
 
-    if deleted_company:
-        return None
-    else:
+    if deleted_company is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Company not found")
+        
+    else:
+        return {}
+        
     
     
     
