@@ -1,3 +1,4 @@
+# app/companies/service.py
 from sqlmodel.ext.asyncio.session import AsyncSession
 from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel
 from sqlmodel import select, desc

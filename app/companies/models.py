@@ -1,3 +1,4 @@
+# app/companies/models.py
 from sqlmodel import SQLModel, Field, Column, String
 import sqlalchemy.dialects.postgresql as pg
 from datetime import datetime

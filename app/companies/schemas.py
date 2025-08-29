@@ -1,3 +1,4 @@
+# app/companies/schemas.py
 from pydantic import BaseModel, EmailStr
 from pydantic import Field
 import uuid
