@@ -38,7 +38,6 @@ async def create_user_account(user_data: UserCreateModel, session: AsyncSession 
     response_data = UserResponseModel.from_orm(new_user)
     print("✅ Returning user:", response_data)
     return response_data
-  # FastAPI will use UserResponseModel to serialize
 
 @auth_router.get("/ping")
 async def ping():
