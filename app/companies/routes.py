@@ -6,25 +6,28 @@ from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel, Compan
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi.exceptions import HTTPException
 from typing import List
+from app.auth.dependencies import AccessTokenBearer
 
 
 company_router = APIRouter()
 company_service = CompanyService()
+access_token_bearer = AccessTokenBearer()
 
 @company_router.get("/", response_model=List[Company])
-async def get_all_companies(session: AsyncSession = Depends(get_db)):
+async def get_all_companies(session: AsyncSession = Depends(get_db), user_details=Depends(access_token_bearer)):
+    print(user_details)
     companies = await company_service.get_all_companies(session)
     return companies
 
 
 @company_router.post("/", status_code=status.HTTP_201_CREATED, response_model=Company)
-async def create_a_company(company_data: CompanyCreateModel, session: AsyncSession = Depends(get_db)) -> dict:
+async def create_a_company(company_data: CompanyCreateModel, session: AsyncSession = Depends(get_db), user_details=Depends(access_token_bearer)) -> dict:
     new_company = await company_service.create_company(company_data, session)
     return new_company
 
 
 @company_router.get("/{company_uid}", response_model=Company)
-async def get_a_company(company_uid: str, session: AsyncSession = Depends(get_db)):
+async def get_a_company(company_uid: str, session: AsyncSession = Depends(get_db), user_details=Depends(access_token_bearer)):
     company = await company_service.get_company(company_uid, session)
 
     if company:
@@ -35,7 +38,7 @@ async def get_a_company(company_uid: str, session: AsyncSession = Depends(get_db
 
 
 @company_router.patch("/{company_uid}", response_model=Company)
-async def update_a_company(company_uid: str, company_update_data: CompanyUpdateModel, session: AsyncSession = Depends(get_db)):
+async def update_a_company(company_uid: str, company_update_data: CompanyUpdateModel, session: AsyncSession = Depends(get_db), user_details=Depends(access_token_bearer)):
     updated_company = await company_service.update_company(company_uid, company_update_data, session)
 
     if updated_company is None:
@@ -46,7 +49,7 @@ async def update_a_company(company_uid: str, company_update_data: CompanyUpdateM
         
     
 @company_router.delete("/{company_uid}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_a_company(company_uid: str, session: AsyncSession = Depends(get_db)):
+async def delete_a_company(company_uid: str, session: AsyncSession = Depends(get_db), user_details=Depends(access_token_bearer)):
     deleted_company = await company_service.delete_company(company_uid, session)
 
     if deleted_company is None:
