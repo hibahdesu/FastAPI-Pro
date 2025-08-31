@@ -45,50 +45,44 @@ async def create_user_account(user_data: UserCreateModel, session: AsyncSession 
 
 @auth_router.post('/login')
 async def login_users(login_data: UserLoginModel, session: AsyncSession = Depends(get_db)):
-    email = login_data.email
-    password = login_data.password
+    try:
+        email = login_data.email
+        password = login_data.password
 
-    user = await user_service.get_user_by_email(email, session)
+        user = await user_service.get_user_by_email(email, session)
+        if not user:
+            print("❌ User not found:", email)
+            raise HTTPException(status_code=403, detail="Invalid Email Or Password")
 
-    if user is not None: 
+        print("🔐 Verifying password for:", email)
+        print("Stored hash:", user.password_hash)
+
         password_valid = verify_password(password, user.password_hash)
+        if not password_valid:
+            print("❌ Invalid password")
+            raise HTTPException(status_code=403, detail="Invalid Email Or Password")
 
-        if password_valid:
-            access_token = create_access_token(
-                user_data={
-                    'email': user.email,
-                    'user_uid': str(user.uid)
-                }   
-            )
-
-            refresh_token = create_access_token(
-                user_data={
-                    'email': user.email,
-                    'user_uid': str(user.uid)
-                },
-                refresh=True,
-                expiry=timedelta(days=REFRESH_TOKEN_EXPIRY)
-            )
-
-            return JSONResponse(
-                content={
-                    "message": "Login successful",
-                    "access_token": access_token,
-                    "refresh_token": refresh_token,
-                    "user": {
-                        "email": user.email,
-                        "uid": str(user.uid)
-                    }
-                }
-            )
+        access_token = create_access_token(
+            user_data={'email': user.email, 'user_uid': str(user.uid)}
+        )
         
-    raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN,
-        detail="Invalid Email Or Password"
-    )
+        refresh_token = create_access_token(
+            user_data={'email': user.email, 'user_uid': str(user.uid)},
+            refresh=True,
+            expiry=timedelta(days=REFRESH_TOKEN_EXPIRY)
+        )
 
+        print("✅ Login successful for:", email)
+        return JSONResponse(content={
+            "message": "Login successful",
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "user": {
+                "email": user.email,
+                "uid": str(user.uid)
+            }
+        })
 
-
-@auth_router.get("/ping")
-async def ping():
-    return {"message": "pong"}
+    except Exception as e:
+        print("🔥 Exception during login:", repr(e))
+        raise HTTPException(status_code=500, detail="Internal Server Error")
