@@ -16,8 +16,6 @@ async def lifespan(app: FastAPI):
     # await engine.dispose()  # ✅ Clean up async connections
 
 
-
-
 version="v1"
 
 app = FastAPI(
@@ -27,16 +25,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-
-@app.get("/ping")
-async def ping():
-    print("✅ Ping received")
-    return {"status": "ok"}
-
-@app.post("/test")
-async def test(data: dict):
-    print("📥 Received test payload:", data)
-    return {"echo": data}
 
 app.include_router(company_router, prefix=f"/api/{version}/companies", tags=["companies"])
 app.include_router(auth_router, prefix=f"/api/{version}/auth", tags=["auth"])
