@@ -11,8 +11,23 @@ fastapi dev app/
 
 pip freeze > requirements.txt
 
- pip install asyncpg
+pip install asyncpg
 
- pip install pydantic-settings
+pip install pydantic-settings
 
- pip install sqlmodel
+pip install sqlmodel
+
+pip install alembic
+
+alembic --help
+
+alembic init -t async migrations
+
+alembic revision --autogenerate -m "init"
+
+alembic upgrade head
+
+pip install passlib
+
+pip install pyjwt
+
