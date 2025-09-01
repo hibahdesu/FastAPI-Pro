@@ -13,6 +13,16 @@ class CompanyService:
         companies = results.all()
 
         return companies
+    
+
+    async def get_user_company(self, user_uid: str, session: AsyncSession) -> list:
+        statement = select(Company).where(Company.user_uid == user_uid).order_by(desc(Company.created_at))
+
+        results = await session.exec(statement)
+
+        companies = results.all()
+
+        return companies
 
     async def get_company(self, company_uid: str, session: AsyncSession):
         statement = select(Company).where(Company.uid == company_uid)
@@ -23,10 +33,12 @@ class CompanyService:
 
         return company if company is not None else None
 
-    async def create_company(self, company_data: CompanyCreateModel, session: AsyncSession) -> dict:
+    async def create_company(self, company_data: CompanyCreateModel, user_uid: str, session: AsyncSession) -> dict:
         company_data_dict = company_data.model_dump()
 
         new_company = Company(**company_data_dict)
+
+        new_company.user_uid = user_uid
 
         session.add(new_company)
 
