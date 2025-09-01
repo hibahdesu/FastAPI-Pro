@@ -60,49 +60,42 @@
 #         await conn.run_sync(Base.metadata.create_all)
 
 
-
-
-
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
-from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.config import Config
-from app.companies.models import Company
+from sqlalchemy.pool import NullPool
+from uuid import uuid4
 
-
-# Convert sync database URL to async-compatible URL
+# Async-compatible URL
 DATABASE_URL = Config.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
 
-# Create the async engine
-engine: AsyncEngine = create_async_engine(
-    url=DATABASE_URL,
+print("✅ DATABASE_URL (sanitized):", DATABASE_URL)  # Just to verify at runtime
+
+# Optionally: Add query param if connect_args isn't respected
+# DATABASE_URL += "?statement_cache_size=0"
+
+from uuid import uuid4
+
+engine = create_async_engine(
+    DATABASE_URL,
     echo=True,
-    connect_args={"statement_cache_size": 0}
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_name_func": lambda: f"__asyncpg_{uuid4()}__",
+    },
+    poolclass=NullPool,
 )
 
-# Create the async sessionmaker
 async_session = sessionmaker(
-    bind=engine,  
-    class_=AsyncSession,
-    expire_on_commit=False
+    engine, class_=AsyncSession, expire_on_commit=False
 )
 
-# Initialize database schema
+async def get_db():
+    async with async_session() as session:
+        yield session
+
 async def init_db():
     async with engine.begin() as conn:
-        from app.companies.models import Company
-
         await conn.run_sync(SQLModel.metadata.create_all)
-
-# Dependency to provide an async session
-async def get_db() -> AsyncSession:
-
-    Session = sessionmaker(
-    bind=engine,  
-    class_=AsyncSession,
-    expire_on_commit=False
-    )
-
-    async with Session() as session:
-        yield session
