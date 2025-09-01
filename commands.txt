@@ -31,3 +31,9 @@ pip install passlib
 
 pip install pyjwt
 
+pip install aioredis
+
+alembic revision --autogenerate -m 'Add roles to users'
+
+alembic upgrade head
+
