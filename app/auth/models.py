@@ -20,6 +20,9 @@ class User(SQLModel, table=True):
     email: str = Field(nullable=False, unique=True)
     first_name: str
     last_name: str
+    role: str = Field(sa_column=Column(
+        pg.VARCHAR, nullable=False, server_default="user"
+    ))
     company_name: Optional[str] = None
     payment_id: Optional[str] = None
     has_paid: bool = Field(default=False)

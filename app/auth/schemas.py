@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 import uuid
 from datetime import datetime
+from typing import Optional
 
 class UserCreateModel(BaseModel):
     first_name: str = Field(max_length=25)
@@ -27,13 +28,10 @@ class UserModel(BaseModel):
     updated_at: datetime 
 
    
-from pydantic import BaseModel
-from typing import Optional
-from uuid import UUID
-from datetime import datetime
+
 
 class UserResponseModel(BaseModel):
-    uid: UUID
+    uid: uuid.UUID
     username: str
     email: str
     first_name: str
