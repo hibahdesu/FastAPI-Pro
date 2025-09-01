@@ -31,9 +31,17 @@ pip install passlib
 
 pip install pyjwt
 
+python:
+    import secrets
+    secrets.token_hex(16)
+
 pip install aioredis
 
 alembic revision --autogenerate -m 'Add roles to users'
+
+alembic upgrade head
+
+alembic revision --autogenerate -m 'Add relate useres to companies'
 
 alembic upgrade head
 
