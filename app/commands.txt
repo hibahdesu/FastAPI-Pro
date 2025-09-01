@@ -3,3 +3,8 @@ python -m venv env
 env/Scripts/activate
 
 pip install asyncpg
+
+python:
+    import secrets
+    secrets.token_hex(16)
+    
