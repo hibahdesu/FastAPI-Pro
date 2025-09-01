@@ -1,8 +1,10 @@
-from sqlmodel import SQLModel, Field, Column
+from sqlmodel import SQLModel, Field, Column, Relationship
 from typing import Optional
 import uuid
 from datetime import datetime
 import sqlalchemy.dialects.postgresql as pg
+from app.companies import models
+from typing import List
 
 
 class User(SQLModel, table=True):
@@ -30,6 +32,7 @@ class User(SQLModel, table=True):
     is_active: bool = Field(default=False)
     is_superuser: bool = Field(default=False)
     password_hash: str = Field(exclude=True)  # Do not include in the response model
+    company: List["models.Company"] = Relationship(back_populates="user", sa_relationship_kwargs={'lazy': 'selectin'})
     created_at: datetime = Field(default_factory=datetime.utcnow)  # Use default_factory to generate current time
     updated_at: datetime = Field(default_factory=datetime.utcnow)  # Use default_factory to generate current time
 

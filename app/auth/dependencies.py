@@ -15,7 +15,7 @@ user_service = UserService()
 
 class TokenBearer(HTTPBearer):
     
-    def __ini__(self, auto_error = True):
+    def __init__(self, auto_error = True):
         super().__init__(auto_error=auto_error)
 
     async def __call__(self, request: Request) -> HTTPAuthorizationCredentials | None:

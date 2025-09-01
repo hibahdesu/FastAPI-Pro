@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 import uuid
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+from app.companies.schemas import Company
 
 class UserCreateModel(BaseModel):
     first_name: str = Field(max_length=25)
@@ -24,6 +25,7 @@ class UserModel(BaseModel):
     is_active: bool 
     is_superuser: bool
     password_hash: str = Field(exclude=True)
+    companies: List[Company]
     created_at: datetime 
     updated_at: datetime 
 
