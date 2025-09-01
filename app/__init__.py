@@ -9,7 +9,8 @@ from app.auth.routes import auth_router
 async def lifespan(app: FastAPI):
     # Startup code here
     print('Server started...')
-    # await init_db()
+    from app.companies.models import Company
+    await init_db()
     yield
     # Shutdown code here
     print('Server has been stopped...')
@@ -22,7 +23,7 @@ app = FastAPI(
     title="Kaleem Backend",
     description="Backend API for Kaleem Application",
     version=version,
-    lifespan=lifespan
+    # lifespan=lifespan
 )
 
 
