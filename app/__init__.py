@@ -4,6 +4,7 @@ from app.companies.routes import company_router
 from contextlib import asynccontextmanager
 from app.db.database import init_db, engine
 from app.auth.routes import auth_router
+from app.data.routes import router as data_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -29,3 +30,4 @@ app = FastAPI(
 
 app.include_router(company_router, prefix=f"/api/{version}/companies", tags=["companies"])
 app.include_router(auth_router, prefix=f"/api/{version}/auth", tags=["auth"])
+app.include_router(data_router, prefix=f"/api/{version}/data", tags=["data"])
