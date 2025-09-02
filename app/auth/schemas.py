@@ -20,7 +20,7 @@ class UserModel(BaseModel):
     last_name: str
     company_name: Optional[str] = None 
     has_paid: bool
-    company_name: Optional[str] = None 
+    payment_id: Optional[str] = None 
     is_verified: bool 
     is_active: bool 
     is_superuser: bool
