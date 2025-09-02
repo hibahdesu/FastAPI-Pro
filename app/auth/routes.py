@@ -1,6 +1,6 @@
 # app/auth/routes.py
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.auth.schemas import UserCreateModel, UserModel, UserResponseModel, UserLoginModel
+from app.auth.schemas import UserCreateModel, UserModel, UserResponseModel, UserLoginModel, UserCompanyModel
 from app.auth.service import UserService
 from app.db.database import get_db
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -116,7 +116,7 @@ async def get_new_access_token(token_details: dict = Depends(RefreshTokenBearer(
         )
 
 
-@auth_router.get('/me', response_model=UserModel)
+@auth_router.get('/me', response_model=UserCompanyModel)
 async def get_current_user(user = Depends(get_current_user), _:bool=Depends(role_checker)):
     return user
 

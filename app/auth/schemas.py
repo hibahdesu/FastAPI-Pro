@@ -18,19 +18,19 @@ class UserModel(BaseModel):
     email: str
     first_name: str
     last_name: str
-    company_name: str
+    company_name: Optional[str] = None 
     has_paid: bool
-    payment_id: str 
+    company_name: Optional[str] = None 
     is_verified: bool 
     is_active: bool 
     is_superuser: bool
     password_hash: str = Field(exclude=True)
-    companies: List[Company]
+    # companies: List[Company]
     created_at: datetime 
     updated_at: datetime 
 
-   
-
+class UserCompanyModel(UserModel):
+    companies: List[Company] = []
 
 class UserResponseModel(BaseModel):
     uid: uuid.UUID

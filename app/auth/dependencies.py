@@ -91,6 +91,7 @@ async def get_current_user(token_details: dict = Depends(AccessTokenBearer()),
 
     return user
 
+
 class RoleChecker:
     def __init__(self, allowed_roles: List[str]) -> None:
 
@@ -98,9 +99,6 @@ class RoleChecker:
 
 
     def __call__(self, current_user: User = Depends(get_current_user)) -> Any:
-
-        # if not current_user.is_verified:
-        #     pass
 
         if current_user.role in self.allowed_roles:
             return True 
