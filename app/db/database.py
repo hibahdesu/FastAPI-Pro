@@ -60,6 +60,7 @@
 #         await conn.run_sync(Base.metadata.create_all)
 
 
+# app/db/database.py
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -67,16 +68,15 @@ from sqlmodel import SQLModel
 from app.core.config import Config
 from sqlalchemy.pool import NullPool
 from uuid import uuid4
+from supabase import create_client
 
 # Async-compatible URL
 DATABASE_URL = Config.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
 
-print("✅ DATABASE_URL (sanitized):", DATABASE_URL)  # Just to verify at runtime
+print("✅ DATABASE_URL (sanitized):", DATABASE_URL)  
 
 # Optionally: Add query param if connect_args isn't respected
 # DATABASE_URL += "?statement_cache_size=0"
-
-from uuid import uuid4
 
 engine = create_async_engine(
     DATABASE_URL,
@@ -99,3 +99,9 @@ async def get_db():
 async def init_db():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
+
+
+# Supabase client setup
+SUPABASE_URL = Config.SUPABASE_URL
+SUPABASE_KEY = Config.SUPABASE_KEY
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
