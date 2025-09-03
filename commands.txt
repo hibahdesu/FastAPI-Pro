@@ -48,3 +48,5 @@ alembic upgrade head
 alembic revision --autogenerate -m 'Add the data part'
 
 alembic upgrade head
+
+pip install python-docx PyMuPDF
