@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr
 from pydantic import Field
 import uuid
 from datetime import datetime
+from app.data.schemas import TrainingDataSourceRead
 
 class Company(BaseModel):
     uid: uuid.UUID 
@@ -18,6 +19,9 @@ class Company(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 
+
+class CompanyDetailModel(Company):
+    data: list[TrainingDataSourceRead] = []
 class CompanyCreateModel(BaseModel):
     name: str 
     email: EmailStr

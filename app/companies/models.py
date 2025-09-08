@@ -1,16 +1,20 @@
 # app/companies/models.py
 from sqlmodel import SQLModel, Field, Column, String, Relationship
 import sqlalchemy.dialects.postgresql as pg
-from app.auth.models import User
+# from app.auth.models import User
 # from app.billing.models import Billing
 from datetime import datetime
 from pydantic import EmailStr
 import uuid
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
+
 
 # if TYPE_CHECKING:
     
 #     from app.billing.models import Billing
+if TYPE_CHECKING:
+    from app.auth.models import User
+    from app.data.models import TrainingDataSource
 
     
 class Company(SQLModel, table=True):
@@ -36,6 +40,7 @@ class Company(SQLModel, table=True):
     ticket_usage: int
     user_uid: Optional[uuid.UUID] = Field(default=None, foreign_key="users.uid")
     user: Optional["User"] = Relationship(back_populates="company")
+    data: List["TrainingDataSource"] = Relationship(back_populates="company", sa_relationship_kwargs={'lazy': 'selectin'})
 
     # billing: Optional["Billing"] = Relationship(back_populates="company", sa_relationship_kwargs={"uselist": False})
     # billing: Optional["Billing"] = Relationship(

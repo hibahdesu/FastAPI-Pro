@@ -2,11 +2,12 @@
 from fastapi import APIRouter, status, Depends
 from app.companies.service import CompanyService
 from app.db.database import get_db
-from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel, Company
+from app.companies.schemas import CompanyCreateModel, CompanyUpdateModel, Company, CompanyDetailModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi.exceptions import HTTPException
 from typing import List
 from app.auth.dependencies import AccessTokenBearer, RoleChecker
+
 
 
 company_router = APIRouter()
@@ -40,7 +41,7 @@ async def create_a_company(company_data: CompanyCreateModel, session: AsyncSessi
     return new_company
 
 
-@company_router.get("/{company_uid}", response_model=Company, dependencies=[role_checker])
+@company_router.get("/{company_uid}", response_model=CompanyDetailModel, dependencies=[role_checker])
 async def get_a_company(company_uid: str, session: AsyncSession = Depends(get_db), token_details: dict=Depends(access_token_bearer)):
     company = await company_service.get_company(company_uid, session)
 

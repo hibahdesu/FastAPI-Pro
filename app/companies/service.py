@@ -25,6 +25,7 @@ class CompanyService:
         return companies
 
     async def get_company(self, company_uid: str, session: AsyncSession):
+        print(f"get_company called with {company_uid}")  # Debug log
         statement = select(Company).where(Company.uid == company_uid)
 
         results = await session.exec(statement)
