@@ -67,6 +67,30 @@ class AccountNotVerified(Exception):
     pass
 
 
+class PaymentRequired(KaleemException): 
+    pass
+
+
+class PaymentInitiationFailed(KaleemException):
+    """Payment initiation with Moyasar failed."""
+    pass
+
+class FileNotFound(KaleemException):
+    """The file requested was not found."""
+    pass
+
+class UnsupportedFileType(KaleemException):
+    """The uploaded file type is not supported."""
+    pass
+
+class UploadFailed(KaleemException):
+    """The file upload to Supabase failed."""
+    pass
+
+class SignedURLGenerationFailed(KaleemException):
+    """Failed to generate a signed URL for the uploaded file."""
+    pass
+
 
 
 def create_exception_handler(
@@ -187,6 +211,63 @@ def register_all_errors(app: FastAPI):
             initial_detail={
                 "message": "Company Not Found",
                 "error_code": "company_not_found",
+            },
+        ),
+    )
+
+    app.add_exception_handler(
+    FileNotFound,
+    create_exception_handler(
+        status_code=404,
+        initial_detail={
+            "message": "File not found",
+            "error_code": "file_not_found"
+        }
+    )
+    )
+
+    app.add_exception_handler(
+        UnsupportedFileType,
+        create_exception_handler(
+            status_code=400,
+            initial_detail={
+                "message": "Unsupported file type",
+                "error_code": "unsupported_file_type"
+            }
+        )
+    )
+
+    app.add_exception_handler(
+        UploadFailed,
+        create_exception_handler(
+            status_code=500,
+            initial_detail={
+                "message": "Upload to storage failed",
+                "error_code": "upload_failed"
+            }
+        )
+    )
+
+    app.add_exception_handler(
+        SignedURLGenerationFailed,
+        create_exception_handler(
+            status_code=500,
+            initial_detail={
+                "message": "Failed to generate signed URL",
+                "error_code": "signed_url_failed"
+            }
+        )
+    )
+
+
+    app.add_exception_handler(
+        PaymentInitiationFailed,
+        create_exception_handler(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            initial_detail={
+                "message": "Payment initiation failed",
+                "error_code": "payment_gateway_failed",
+                "resolution": "Try again or use a different payment method",
             },
         ),
     )
