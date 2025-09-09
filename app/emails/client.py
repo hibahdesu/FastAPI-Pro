@@ -1,3 +1,4 @@
+# app/emails/mail.py
 from fastapi_mail import FastMail, ConnectionConfig, MessageSchema, MessageType
 from app.core.config import Config
 from pathlib import Path
