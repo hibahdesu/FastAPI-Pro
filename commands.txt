@@ -17,6 +17,8 @@ pip install pydantic-settings
 
 pip install sqlmodel
 
+redis-server
+
 pip install alembic
 
 alembic --help
@@ -50,3 +52,23 @@ alembic revision --autogenerate -m 'Add the data part'
 alembic upgrade head
 
 pip install python-docx PyMuPDF
+
+alembic revision --autogenerate -m "add bots table"
+
+alembic upgrade head
+
+alembic revision --autogenerate -m "Fix chat message column"
+
+alembic upgrade head
+
+pip install sentence-transformers
+
+pip install qdrant-client
+
+pip install openai
+
+alembic revision --autogenerate -m "Add analysis"
+
+alembic upgrade head
+
+pip install -U itsdangerous or pip install itsdangerous
