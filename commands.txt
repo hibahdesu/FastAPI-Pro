@@ -84,3 +84,8 @@ celery -A celery_worker.c_app worker --loglevel=info --pool=solo
 pip install flower
 
 celery -A celery_worker.c_app worker flower
+
+pip install pytest
+
+# To reach the docs:
+http://localhost:8000/docs
