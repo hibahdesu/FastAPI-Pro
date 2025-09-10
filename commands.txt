@@ -76,3 +76,5 @@ pip install -U itsdangerous or pip install itsdangerous
 pip install celery
 
 pip install asgiref
+
+pip install "fastapi-mail[full]"
