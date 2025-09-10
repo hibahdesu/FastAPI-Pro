@@ -89,3 +89,6 @@ pip install pytest
 
 # To reach the docs:
 http://localhost:8000/docs
+
+
+pip install schemathesis
