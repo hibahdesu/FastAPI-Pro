@@ -92,3 +92,18 @@ http://localhost:8000/docs
 
 
 pip install schemathesis
+
+
+-- st
+-- schemathesis
+
+st run localhost:8000/api/v1/openapi.json
+or:
+st run localhost:8000/api/v1/openapi.json --experimental=openapi-3.3
+or:
+schemathesis run http://localhost:8000/api/v1/openapi.json
+
+schemathesis run http://localhost:8000/api/v1/openapi.json --checks all
+
+**For production: **
+fastapi run app/
