@@ -1,0 +1,96 @@
+├── .env
+├── .gitignore
+├── Qdrant.py
+├── alembic.ini
+├── api_test.py
+├── app
+│   ├── .env
+│   ├── __init__.py
+│   ├── analytics
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── auth
+│   │   ├── __init__.py
+│   │   ├── dependencies.py
+│   │   ├── models.py
+│   │   ├── roles.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   ├── service.py
+│   │   └── utils.py
+│   ├── billing
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── bot_channel
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   ├── service.py
+│   │   └── webhooks.py
+│   ├── bots
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── chat
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── commands.txt
+│   ├── companies
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── core
+│   │   ├── config.py
+│   │   └── embedding.py
+│   ├── data
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── db
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   └── redis.py
+│   ├── vectorstore
+│   │   └── qdrant_client.py
+│   └── whatsapp
+│       └── client.py
+├── commands.txt
+├── migrations
+│   ├── README
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions
+│       ├── 02b96888ab29_init.py
+│       ├── 07851a6a05d5_add_bots_table.py
+│       ├── 13cc0e2e82de_add_relate_useres_to_companies.py
+│       ├── 438f93c228f3_add_the_data_part.py
+│       ├── 445f10fe4b79_fix_circular_imports_and_relationships.py
+│       ├── 5651df9d8da2_fix.py
+│       ├── 5d308426c452_add_roles_to_users.py
+│       ├── 7893969f3d2b_add_fks_to_trainingdatasource.py
+│       ├── 8462e7661004_fix_chat_message_column.py
+│       ├── 98bf66f41103_fix_circular_imports_and_relationships.py
+│       ├── b396e0866140_rename_metadata_to_info_in_chatevent.py
+│       └── f30091998e43_add_analysis.py
+├── more.txt
+├── project_structure.txt
+├── requirements.txt
+├── show_structure.py
+├── test.py
+└── test_bucket.py
