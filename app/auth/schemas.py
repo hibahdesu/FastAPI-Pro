@@ -3,6 +3,8 @@ import uuid
 from datetime import datetime
 from typing import Optional, List
 from app.companies.schemas import Company
+from app.data.schemas import TrainingDataSourceRead
+from pydantic import ConfigDict
 
 class UserCreateModel(BaseModel):
     first_name: str = Field(max_length=25)
@@ -31,6 +33,7 @@ class UserModel(BaseModel):
 
 class UserCompanyModel(UserModel):
     companies: List[Company] = []
+    data: List[TrainingDataSourceRead] = []
 
 class UserResponseModel(BaseModel):
     uid: uuid.UUID
@@ -47,9 +50,40 @@ class UserResponseModel(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    # class Config:
+        # from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class UserLoginModel(BaseModel):
     email: str = Field(max_length=40)
     password: str = Field(min_length=6)
+
+class UserUpdateModel(BaseModel):
+    first_name: Optional[str] = Field(max_length=25)
+    last_name: Optional[str] = Field(max_length=25)
+    username: Optional[str] = Field(max_length=10)
+    email: Optional[str] = Field(max_length=40)
+    company_name: Optional[str] = None
+    # has_paid: Optional[bool] = None
+    # is_verified: Optional[bool] = None
+    # is_active: Optional[bool] = None
+    # is_superuser: Optional[bool] = None
+
+class PasswordResetRequestModel(BaseModel):
+    email: str
+
+
+class PasswordResetConfirmModel(BaseModel):
+    new_password: str
+    confirm_new_password: str
+
+
+
+
+class SignupResponseModel(BaseModel):
+    message: str
+    user: UserResponseModel  # This already exists in your schema
+
+    # class Config:
+        # from_attributes = True  # Ensures compatibility with ORM models
+    model_config = ConfigDict(from_attributes=True)
