@@ -109,3 +109,5 @@ schemathesis run http://localhost:8000/api/v1/openapi.json --checks all
 fastapi run app/
 
 pip install twilio
+
+ngrok http 8000
